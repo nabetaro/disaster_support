@@ -1,0 +1,72 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, maximum-scale=1, user-scalable=no">
+        <meta http-equiv="Content-Security-Policy" content="default-src *; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'">
+        <link rel="stylesheet" href="components/loader.css">
+        <script src="components/loader.js"></script>
+
+        <script type="text/javascript" >
+         function getAnswer(){
+             var str="";
+             for (i=0; i<10; i++){
+                 if(document.checkList.elements[i].checked){
+                     str+="Y";
+                 }else {
+                     str+="N";
+                 }
+             }
+             return str;
+         }
+
+         function getLevel(answer){
+             return 1;
+         }
+         
+         function send_to_form(){
+             var nick_name=form.nick_name.value;
+             var message=form.message.value;
+             var answer=getAnswer();
+             var level =getLevel(answer);
+
+             if (nick_name=="" || message==""){
+                 alert("必要事項を記入していません")
+             } else {
+                 document.write("nick_name :" +nick_name);
+                 document.write("<br />message: " + message);
+                 document.write("<br />answer:" + answer);
+             }
+         }
+        </script>
+    </head>
+    <body>
+        <a href="index.html">トップページ</a>
+        <form name="form"> 
+            <table>
+                <tr>
+    	              <td>ニックネーム</td>   
+                    <td><input type="text" name="nick_name" size="40"></td>
+		            </tr>
+                <tr>
+                    <td>メッセージ</td>
+                    <td><textarea name="message" rows="4" cols="40"></textarea></td>
+                </tr>
+            </table>
+        </form>
+        <p>チェックリスト</p>
+        <form name="checkList"> 
+            <input type="checkbox" name="q1" value="その1"> その1
+            <input type="checkbox" name="q2" value="その2"> その2
+            <input type="checkbox" name="q3" value="その3"> その3
+            <input type="checkbox" name="q4" value="その4"> その4
+            <input type="checkbox" name="q5" value="その1"> その5
+            <input type="checkbox" name="q6" value="その2"> その6
+            <input type="checkbox" name="q7" value="その3"> その7
+            <input type="checkbox" name="q8" value="その4"> その8
+            <input type="checkbox" name="q9" value="その1"> その9
+            <input type="checkbox" name="q10" value="その2"> その10
+        </form>
+        <button type="button" onClick="send_to_form()">送信</button>
+    </body>
+</html>
