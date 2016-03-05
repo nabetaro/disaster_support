@@ -1,0 +1,15 @@
+{
+  "results":[
+    {
+      "name":"信州大学",
+      "geo":{"__type":"GeoPoint","longitude":137.9763241,"latitude":36.2502824}
+    },
+    {
+      "name":"善光寺",
+      "geo":{"__type":"GeoPoint","longitude":138.1855176,"latitude":36.6617052}
+    }
+
+  ]
+}
+
+
