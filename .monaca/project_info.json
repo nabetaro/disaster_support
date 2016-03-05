@@ -10,7 +10,7 @@
         "cordova-plugin-splashscreen@2.1.0",
         "cordova-plugin-whitelist@1.0.0"
     ],
-    "title-ja": "disaster_support",
+    "title-ja": "",
     "title-en": "",
     "description-ja": "",
     "description-en": "",
@@ -18,8 +18,7 @@
     "platform": [
         "android",
         "ios",
-        "winrt",
         "chrome"
     ],
-    "name": "generated-1457154782-56da39bcfd1734672bb9c329"
+    "name": "generated-1457163736-56da6d14fd1734055b0200e2"
 }

@@ -10,6 +10,29 @@ var map;
     ncmb = new NCMB(YOUR_APP_KEY,YOUR_CLIENT_KEY);
 });
 
+var levels = {
+    1: {
+        count: 0,
+        color: "#0088ff"
+    },
+    2: {
+        count: 0,
+        color: "#8888ff"
+    },
+    3: {
+        count: 0,
+        color: "#ff8888"
+    },
+    4: {
+        count: 0,
+        color: "#ff8800"
+    },
+    5: {
+        count: 0,
+        color: "#ff0000"
+    }
+};
+
 //OSMの描画
 function writemap(lat,lon) {
     map = new OpenLayers.Map("canvas");
@@ -33,9 +56,32 @@ function writemap(lat,lon) {
         )
     );
     markers.addMarker(marker);
+    circle(lat,lon,"1",10);
 }
 
- 
+function circle(lat, lon, level, zoom) {
+    var layer_style = OpenLayers.Util.extend({}, OpenLayers.Feature.Vector.style['default']);
+    var style_point = {
+        strokeColor: levels[level]["color"],
+        fillColor: levels[level]["color"],
+        fillOpacity: 0.4,    // 内側の透明度
+        strokeWidth: 2, // 外周の太さ
+        pointRadius: 100  // 半径
+    };
+
+    var vectorLayer = new OpenLayers.Layer.Vector("描画テスト", {style: layer_style});
+    var point = new OpenLayers.Geometry.Point(lat, lon);
+    point.transform(
+        new OpenLayers.Projection("EPSG:4326"),
+        map.getProjectionObject()
+    );
+    var pointFeature = new OpenLayers.Feature.Vector(point, null, style_point);
+
+    // レイヤの追加と描画する図の指定
+    map.addLayer(vectorLayer);
+    vectorLayer.addFeatures([pointFeature]);
+}
+
 //OSMの描画時に位置情報取得に成功した場合のコールバック
 var onGeoSuccess = function(position){
     current = new CurrentPoint();    
@@ -70,26 +116,35 @@ var onFindSuccess = function(location){
         var geoPoint = new ncmb.GeoPoint(location.coords.latitude, location.coords.longitude);
         console.log("findpoints:"+location.coords.latitude + ":" + location.coords.longitude);
         
+        var zlevel = map.getZoom();
+        
         var PlacePointsClass = ncmb.DataStore("PlacePoints");
         //ニフティクラウド mobile backendにアクセスして検索開始位置を指定
         PlacePointsClass.withinKilometers("geo", geoPoint, 30)
                         .fetchAll()
                         .then(function(results){
                             var data = [];
+                            
+                            helps = new OpenLayers.Layer.Markers("Helps");
+                            map.addLayer(helps);
+                        
+                            
                             for (var i = 0; i < results.length; i++) {
                                   var result = results[i];
-                                  var markers = new OpenLayers.Layer.Markers("Markers");
-                                  map.addLayer(markers);
-                                  var regist_location = result.get("geo");
-                                  var marker = new OpenLayers.Marker(
-                                      new OpenLayers.LonLat(regist_location.longitude,regist_location.latitude)
+                                  var level = result.get("level");
+                                  levels[level]++;
+                            }
+                            var markers = new OpenLayers.Layer.Markers("Markers");
+                            map.addLayer(markers);
+                            var marker = new OpenLayers.Marker(
+                                new OpenLayers.LonLat(regist_location.longitude,regist_location.latitude)
                                                   .transform(
                                                   new OpenLayers.Projection("EPSG:4326"), 
                                                   new OpenLayers.Projection("EPSG:900913")
                                               )
                                   );
-                                  markers.addMarker(marker);
-                              }
+                            helps.addMarker(marker);
+                              
                           });
         
     };
