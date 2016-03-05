@@ -1,7 +1,7 @@
 //各種設定値記載
 var current;
-var YOUR_APP_KEY = "APP_KEY";
-var YOUR_CLIENT_KEY = "CLI_KEY";
+var YOUR_APP_KEY = "af54a60619fb3b9444eaf7f675fc053c32a4565eadfc2ca0bda4146c0112e123";
+var YOUR_CLIENT_KEY = "a1fcbb9fe38cc60c36fdf728c941667756c31de3bf5eadc928607914f742f3c5";
 var ncmb;
 var map;
 
@@ -130,3 +130,4 @@ var onSaveSuccess = function(location){
     };
 
     
+// send to server ////////////////
